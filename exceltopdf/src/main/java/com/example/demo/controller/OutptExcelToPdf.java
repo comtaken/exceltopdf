@@ -11,12 +11,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Properties;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,16 +37,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 @Controller
 public class OutptExcelToPdf {
+	@Autowired
+	private MessageSource messageSource;
 	/**
 	 * フォーム画面表示
 	 * @param model
 	 * @return input-form
 	 * @throws IOException 
 	 */
-
 	@GetMapping("/")
 	public String displayForm(Model model){
+		String confirmMessage = messageSource.getMessage("confirm.message", null, Locale.JAPAN);
 		model.addAttribute("inputform", new InputForm());
+		model.addAttribute("confirmMessage",confirmMessage );
 		return "input-form";
 	}
 

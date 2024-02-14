@@ -186,8 +186,9 @@
 		</div>
 	</main>
 	<script th:inline="javascript">
+		const confirmMessage = /*[[${confirmMessage}]]*/";"
 		function allClear() {
-			if(confirm("入力内容を全てクリアしてもよろしいでしょうか？")){
+			if(confirm(confirmMessage)){
 				const inputLength = document.getElementsByClassName('clear-input').length;
 				for(var i=0 ; i < inputLength ; i++){
 				    document.getElementsByClassName('clear-input')[i].value = "";
