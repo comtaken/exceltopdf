@@ -4,12 +4,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -30,16 +32,17 @@ import com.example.demo.form.InputForm;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 @Controller
 public class OutptExcelToPdf {
 	/**
 	 * フォーム画面表示
 	 * @param model
 	 * @return input-form
+	 * @throws IOException 
 	 */
+
 	@GetMapping("/")
-	public String displayForm(Model model) {
+	public String displayForm(Model model){
 		model.addAttribute("inputform", new InputForm());
 		return "input-form";
 	}
@@ -144,12 +147,18 @@ public class OutptExcelToPdf {
 				e.printStackTrace();
 			}
 		}
+		Path path = Paths.get("src/main/resources/application.properties");
+		Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
+		Properties properties = new Properties();
+		properties.load(reader);
+		String pdfFolderPath = properties.getProperty("pdfFolderPath");
 		//form_tmp.xlsxをPDF出力
 		Workbook workbooktopdf = new Workbook(filePath);
 		LocalDateTime nowDate = LocalDateTime.now();
 		DateTimeFormatter formater = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 		String yyyyMMddHHmmss = formater.format(nowDate);
-		workbooktopdf.save("pdf格納フォルダパス\\\\ToPDF" + yyyyMMddHHmmss + ".pdf", SaveFormat.PDF);
+		
+		workbooktopdf.save(pdfFolderPath + "ToPDF" + yyyyMMddHHmmss + ".pdf", SaveFormat.PDF);
 		System.out.println("export-pdf\\ToPDF" + yyyyMMddHHmmss + ".pdfを出力しました。");
 		//PDF出力後はform_tmp.xlsxを削除
 		try {
@@ -161,16 +170,11 @@ public class OutptExcelToPdf {
 			System.out.println(e);
 		}
 		
-		downloadPdf("pdf格納フォルダパス\\ToPDF" + yyyyMMddHHmmss + ".pdf","ToPDF" + yyyyMMddHHmmss + ".pdf", response);
+		downloadPdf(pdfFolderPath + "ToPDF" + yyyyMMddHHmmss + ".pdf","ToPDF" + yyyyMMddHHmmss + ".pdf", response);
 		System.out.println("ダウンロード完了");
 		return null;
 	}
-	/**
-	 * pdfファイルをダウンロード
-	 * @param originFilePath
-	 * @param outputFileName
-	 * @param response
-	 */
+	
 	public static void downloadPdf(String originFilePath, String outputFileName, HttpServletResponse response) {
 		String contentFormat = "attachment; filename=\"%s\"; filename*=UTF-8''%s";
 		outputFileName = String.format(contentFormat, outputFileName,
@@ -184,7 +188,6 @@ public class OutptExcelToPdf {
 			os.write(biteFile);
 			os.flush();
 			os.close();
-			Files.delete(filePath);       
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
