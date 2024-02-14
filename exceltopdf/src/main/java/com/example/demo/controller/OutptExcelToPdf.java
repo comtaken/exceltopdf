@@ -174,7 +174,12 @@ public class OutptExcelToPdf {
 		System.out.println("ダウンロード完了");
 		return null;
 	}
-	
+	/**
+	 * pdfダウンロード
+	 * @param originFilePath
+	 * @param outputFileName
+	 * @param response
+	 */
 	public static void downloadPdf(String originFilePath, String outputFileName, HttpServletResponse response) {
 		String contentFormat = "attachment; filename=\"%s\"; filename*=UTF-8''%s";
 		outputFileName = String.format(contentFormat, outputFileName,
