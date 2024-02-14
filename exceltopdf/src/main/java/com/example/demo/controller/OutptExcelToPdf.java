@@ -149,7 +149,7 @@ public class OutptExcelToPdf {
 		LocalDateTime nowDate = LocalDateTime.now();
 		DateTimeFormatter formater = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 		String yyyyMMddHHmmss = formater.format(nowDate);
-		workbooktopdf.save("ダウンロードフォルダパス\\\\ToPDF" + yyyyMMddHHmmss + ".pdf", SaveFormat.PDF);
+		workbooktopdf.save("pdf格納フォルダパス\\\\ToPDF" + yyyyMMddHHmmss + ".pdf", SaveFormat.PDF);
 		System.out.println("export-pdf\\ToPDF" + yyyyMMddHHmmss + ".pdfを出力しました。");
 		//PDF出力後はform_tmp.xlsxを削除
 		try {
@@ -161,11 +161,16 @@ public class OutptExcelToPdf {
 			System.out.println(e);
 		}
 		
-		downloadPdf("ダウンロードフォルダパス\\ToPDF" + yyyyMMddHHmmss + ".pdf","ToPDF" + yyyyMMddHHmmss + ".pdf", response);
+		downloadPdf("pdf格納フォルダパス\\ToPDF" + yyyyMMddHHmmss + ".pdf","ToPDF" + yyyyMMddHHmmss + ".pdf", response);
 		System.out.println("ダウンロード完了");
 		return null;
 	}
-	
+	/**
+	 * pdfファイルをダウンロード
+	 * @param originFilePath
+	 * @param outputFileName
+	 * @param response
+	 */
 	public static void downloadPdf(String originFilePath, String outputFileName, HttpServletResponse response) {
 		String contentFormat = "attachment; filename=\"%s\"; filename*=UTF-8''%s";
 		outputFileName = String.format(contentFormat, outputFileName,
