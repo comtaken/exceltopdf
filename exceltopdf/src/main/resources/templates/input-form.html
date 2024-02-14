@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>top page</title>
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+<style type="text/css">
+.height-6vh {
+	height: 6vh;
+	border-bottom: 3px dashed #dedede;
+}
+
+.table-ryokokeikaku {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.table-keiyu {
+	width: 80%;
+	margin: 24px 0 0 auto;
+	border-collapse: collapse;
+}
+
+.table-shukuhakuba {
+	margin-bottom: 5vh;
+}
+
+.output-btn {
+	width: 100%;
+	margin-bottom: 20px;
+	background: linear-gradient(#4fb5ef, #0076b9 100%);
+	border: 1px solid #005e94;
+	border-radius: 12px;
+	box-shadow: inset 0px 0px 2px 0px rgb(255, 255, 255);
+	box-shadow: 0px 4px 4px 0px rgb(175, 175, 175);
+	box-sizing: border-box;
+	width: 100%;
+	height: 50px;
+	padding: 0 20px 0 70px;
+	color: #fff;
+	font-size: 16px;
+	text-align: left;
+	text-decoration: none;
+	position: relative;
+	transition-duration: 0.2s;
+	text-align: center;
+}
+
+.output-btn:hover {
+	opacity: .7;
+	cursor: pointer
+}
+</style>
+</head>
+<body>
+	<main style="width: 100%">
+		<div>
+			<form style="width: 60%; margin: 0 auto; background-color: azure;"
+				th:action="@{/export}" th:object="${inputform}" method="post">
+				<table class="table-ryokokeikaku">
+					<tbody>
+						<tr>
+							<th colspan="2"
+								style="width: 100%; background-color: #00B050; text-align: left; color: white;">旅行計画書</th>
+						</tr>
+						<tr class="height-6vh">
+							<td>日程</td>
+							<td><input type="date" th:field="*{SCHEDULE}" /></td>
+						</tr>
+						<tr class="height-6vh">
+							<td>出発地点</td>
+							<td><input type="text" th:field="*{STARTPOINT}" /></td>
+						</tr>
+						<tr class="height-6vh">
+							<td>到着地点</td>
+							<td><input type="text" th:field="*{ENDPOINT}" /></td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="table-keiyu">
+					<tbody>
+						<tr>
+							<th colspan="2"
+								style="width: 100%; background-color: #CCCC00; text-align: left; color: white;">経由</th>
+						</tr>
+						<tr class="height-6vh">
+							<td>1</td>
+							<td><input type="text" th:field="*{VIA1}" /></td>
+						</tr>
+						<tr class="height-6vh">
+							<td>2</td>
+							<td><input type="text" th:field="*{VIA2}" /></td>
+						</tr>
+						<tr class="height-6vh">
+							<td>3</td>
+							<td><input type="text" th:field="*{VIA3}" /></td>
+						</tr>
+						<tr class="height-6vh">
+							<td>4</td>
+							<td><input type="text" th:field="*{VIA4}" /></td>
+						</tr>
+						<tr class="height-6vh">
+							<td>5</td>
+							<td><input type="text" th:field="*{VIA5}" /></td>
+						</tr>
+						<tr class="height-6vh">
+							<td>6</td>
+							<td><input type="text" th:field="*{VIA6}" /></td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="table-keiyu">
+					<tbody>
+						<tr>
+							<th colspan="2"
+								style="width: 100%; background-color: #CCCC00; text-align: left; color: white;">食事</th>
+						</tr>
+						<tr class="height-6vh">
+							<td>朝</td>
+							<td><input type="text" th:field="*{BREAKFAST}" /></td>
+						</tr>
+						<tr class="height-6vh">
+							<td>昼</td>
+							<td><input type="text" th:field="*{LUNCH}" /></td>
+						</tr>
+						<tr class="height-6vh">
+							<td>夜</td>
+							<td><input type="text" th:field="*{DINNER}" /></td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="table-keiyu table-shukuhakuba">
+					<tbody>
+						<tr>
+							<th colspan="2"
+								style="width: 100%; background-color: #CCCC00; text-align: left; color: white;">宿泊場</th>
+						</tr>
+						<tr class="height-6vh">
+							<td>施設名</td>
+							<td><input type="text" th:field="*{HOTEL}" /></td>
+						</tr>
+					</tbody>
+				</table>
+				<input class="output-btn" type="submit" th:value="PDF出力" />
+			</form>
+		</div>
+	</main>
+</body>
+</html>
